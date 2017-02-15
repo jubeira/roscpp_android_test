@@ -38,6 +38,7 @@
 #include "costmap_2d/array_parser.h"
 #include <costmap_2d/layered_costmap.h>
 #include <costmap_2d/costmap_2d_ros.h>
+#include <costmap_2d/voxel_layer.h>
 #include <cstdio>
 #include <string>
 #include <algorithm>
@@ -130,8 +131,8 @@ Costmap2DROS::Costmap2DROS(std::string name, tf::TransformListener& tf) :
       static_->initialize(layered_costmap_, name + "/" + std::string("static_layer"), &tf_);
     }
 
-    ROS_INFO("Using plugin \"obstacle_layer\"");
-    boost::shared_ptr<Layer> obstacle (new costmap_2d::ObstacleLayer());
+    ROS_INFO("Using plugin \"voxel_layer\"");
+    boost::shared_ptr<Layer> obstacle (new costmap_2d::VoxelLayer());
     layered_costmap_->addPlugin(obstacle);
     obstacle->initialize(layered_costmap_, name + "/" + std::string("obstacle_layer"), &tf_);
   }

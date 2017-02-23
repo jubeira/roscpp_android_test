@@ -56,6 +56,9 @@ void ObstacleLayer::onInitialize()
   ros::NodeHandle nh("~/" + name_), g_nh;
   rolling_window_ = layered_costmap_->isRolling();
 
+  std::string nodeNameUsed("~/" + name_);
+  ROS_INFO("NodeHandle name used: %s", nodeNameUsed.c_str());
+
   bool track_unknown_space;
   nh.param("track_unknown_space", track_unknown_space, layered_costmap_->isTrackingUnknown());
   if(track_unknown_space)
@@ -72,6 +75,7 @@ void ObstacleLayer::onInitialize()
 
   std::string topics_string;
   //get the topics that we'll subscribe to from the parameter server
+  ROS_INFO("    Subscribing to topics...");
   nh.param("observation_sources", topics_string, std::string(""));
   ROS_INFO("    Subscribed to Topics: %s", topics_string.c_str());
 
@@ -102,6 +106,8 @@ void ObstacleLayer::onInitialize()
     source_node.param("inf_is_valid", inf_is_valid, false);
     source_node.param("clearing", clearing, false);
     source_node.param("marking", marking, true);
+
+    ROS_INFO("    Source: %s, topic: %s", source.c_str(), topic.c_str());
 
     if (!sensor_frame.empty())
     {
